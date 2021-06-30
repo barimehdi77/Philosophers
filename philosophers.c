@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/06/30 18:17:13 by mbari            ###   ########.fr       */
+/*   Updated: 2021/06/30 19:09:33 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int main(int ac, char **av)
 	int i;
 
 	i = 1;
-	printf("|%d|\n", ac);
+	printf("|%d|test\n", ac);
 	if (ac != 5 || ac != 6)
 		return (0);
 	while (av[i])
