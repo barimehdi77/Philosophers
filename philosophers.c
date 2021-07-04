@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/04 18:37:58 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/04 18:49:03 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,11 @@ int	ft_parsing(char **av, t_simulation *simulation)
 			j++;
 		}
 		if (i == 1)
+		{
 			simulation->philo_numbers = num;
+			simulation->forks = num;
+			simulation->threads = (pthread_t *)malloc(sizeof(pthread_t) * num);
+		}
 		else if (i == 2)
 			simulation->time_to_die = num;
 		else if (i == 3)
@@ -50,6 +54,8 @@ int	ft_parsing(char **av, t_simulation *simulation)
 			simulation->notepme = num;
 		i++;
 	}
+	if (i == 5)
+		simulation->notepme = -1;
 	return (0);
 }
 
