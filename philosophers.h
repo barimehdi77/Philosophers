@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:38 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/04 18:36:10 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/05 19:19:23 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <stdio.h>
 # include <pthread.h>
+# include <unistd.h>
+# include <stdlib.h>
 # include <string.h>
 
 typedef struct s_philo

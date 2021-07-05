@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Philosophers.c                                     :+:      :+:    :+:   */
+/*   philosophers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/04 18:49:03 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/05 19:18:45 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,39 @@ int	ft_parsing(char **av, t_simulation *simulation)
 	return (0);
 }
 
+void	*ft_routine(void *arg)
+{
+	t_simulation	*simulation;
+
+	simulation = (t_simulation *)arg;
+	printf("thread start\n");
+	sleep(7);
+	printf("thread ends\n");
+	return NULL;
+}
+
 int	main(int ac, char **av)
 {
 	int				i;
 	t_simulation	simulation;
 
-	i = 1;
+	i = 0;
 	if (ac == 5 || ac == 6)
 	{
 		if (ft_parsing(av, &simulation))
 			return (1);
+		while (i < simulation.philo_numbers)
+		{
+			pthread_create(simulation.threads + i, NULL,
+				ft_routine, &simulation);
+			i++;
+		}
+		i = 0;
+		while (i < simulation.philo_numbers)
+		{
+			pthread_join(simulation.threads[i], NULL);
+			i++;
+		}
 	}
 	return (0);
 }
