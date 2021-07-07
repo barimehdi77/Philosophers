@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/05 20:31:21 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/07 14:51:37 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ t_philo	*ft_philo_init(t_simulation *simulation)
 	int		i;
 
 	i = -1;
-	philo = (t_philo *)malloc(sizeof(t_philo));
+	philo = (t_philo *)malloc(sizeof(t_philo) * simulation->philo_numbers);
 	while (++i < simulation->philo_numbers)
 		ft_for_each_philo(simulation, philo, i);
 	return (philo);
