@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/07 14:51:37 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/07 15:07:39 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_parsing(char **av, t_simulation *simulation)
 		{
 			simulation->philo_numbers = num;
 			simulation->forks = num;
-			simulation->threads = (pthread_t *)malloc(sizeof(pthread_t) * num);
+			simulation->threads = malloc(sizeof(pthread_t) * num);
 		}
 		else if (i == 2)
 			simulation->time_to_die = num;
@@ -77,7 +77,7 @@ t_philo	*ft_philo_init(t_simulation *simulation)
 	int		i;
 
 	i = -1;
-	philo = (t_philo *)malloc(sizeof(t_philo) * simulation->philo_numbers);
+	philo = malloc(sizeof(t_philo) * simulation->philo_numbers);
 	while (++i < simulation->philo_numbers)
 		ft_for_each_philo(simulation, philo, i);
 	return (philo);
@@ -87,7 +87,7 @@ void	*ft_routine(void *arg)
 {
 	t_philo	*philo;
 
-	philo = (t_philo *)arg;
+	philo = arg;
 	printf("thread number %d has started\n", philo->index);
 	sleep(1);
 	printf("thread number %d has ended\n", philo->index);
