@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/11 12:37:16 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/11 12:44:33 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	main(int ac, char **av)
 			i++;
 		}
 		ft_destroy_all(&simulation, philo);
+
 	}
 	return (0);
 }
