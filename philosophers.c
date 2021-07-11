@@ -6,17 +6,11 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/09 13:44:33 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/11 12:37:16 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
-int	ft_error_put(char *messsage, int ret)
-{
-	printf("%s\n", messsage);
-	return (ret);
-}
 
 int	ft_parsing(char **av, t_simulation *simulation)
 {
@@ -41,8 +35,8 @@ int	ft_parsing(char **av, t_simulation *simulation)
 		if (i == 1)
 		{
 			simulation->philo_numbers = num;
-			simulation->forks = num;
 			simulation->threads = malloc(sizeof(pthread_t) * num);
+			simulation->forks = malloc(sizeof(pthread_mutex_t) * num);
 		}
 		else if (i == 2)
 			simulation->time_to_die = num;
@@ -57,30 +51,6 @@ int	ft_parsing(char **av, t_simulation *simulation)
 	if (i == 5)
 		simulation->eat_counter = -1;
 	return (0);
-}
-
-void	ft_for_each_philo(t_simulation *simulation, t_philo *philo, int i)
-{
-	philo[i].index = i + 1;
-	philo[i].left_hand = i;
-	philo[i].right_hand = (i + 1) % simulation->philo_numbers;
-	philo[i].is_dead = NO;
-	if (simulation->eat_counter == -1)
-		philo[i].eat_counter = -1;
-	else
-		philo[i].eat_counter = simulation->eat_counter;
-}
-
-t_philo	*ft_philo_init(t_simulation *simulation)
-{
-	t_philo	*philo;
-	int		i;
-
-	i = -1;
-	philo = malloc(sizeof(t_philo) * simulation->philo_numbers);
-	while (++i < simulation->philo_numbers)
-		ft_for_each_philo(simulation, philo, i);
-	return (philo);
 }
 
 void	*ft_routine(void *arg)
@@ -106,9 +76,9 @@ int	main(int ac, char **av)
 		if (ft_parsing(av, &simulation))
 			return (1);
 		philo = ft_philo_init(&simulation);
+		ft_create_mutex(&simulation);
 		while (i < simulation.philo_numbers)
 		{
-			simulation.philo_index = i;
 			pthread_create(simulation.threads + i, NULL,
 				ft_routine, philo + i);
 			i++;
@@ -119,6 +89,7 @@ int	main(int ac, char **av)
 			pthread_join(simulation.threads[i], NULL);
 			i++;
 		}
+		ft_destroy_all(&simulation, philo);
 	}
 	return (0);
 }
