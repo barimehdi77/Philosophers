@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:38 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/11 16:55:09 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/11 17:17:54 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ typedef struct s_simulation
 	int					time_to_eat;
 	int					time_to_sleep;
 	int					eat_counter;
+	int					max_eat;
+	int					current_eat;
 }				t_simulation;
 
 typedef struct s_philo

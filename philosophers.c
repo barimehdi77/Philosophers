@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/11 17:11:33 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/11 17:23:22 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,40 +45,42 @@ int	ft_parsing(char **av, t_simulation *simulation)
 		else if (i == 4)
 			simulation->time_to_sleep = num;
 		else if (i == 5)
+		{
 			simulation->eat_counter = num;
+			simulation->current_eat = 0;
+			simulation->max_eat = num * simulation->philo_numbers;
+		}
 		i++;
 	}
 	if (i == 5)
+	{
 		simulation->eat_counter = -1;
+		simulation->current_eat = -1;
+		simulation->max_eat = -1;
+	}
 	return (0);
 }
 
 void	*ft_check_death(void *arg)
 {
 	t_philo	*philo;
-	int		count;
 
 	philo = (t_philo *)arg;
-	count = 1;
-	while (count)
+	while (1)
 	{
-		if (philo->eat_counter != -1)
-			count = philo->eat_counter;
-		// printf("counter : %d\n", count);
 		if (philo->data->limit < ft_get_time())
 		{
 			ft_print_message(DIED, philo);
 			pthread_mutex_unlock(philo->data->stop);
+			break;
 		}
-		// printf("count : %d\n", count);
-		// if (count == 0)
-		// {
-		// 	ft_print_message(DONE, philo);
-		// 	pthread_mutex_unlock(philo->data->stop);
-		// }
+		if ((philo->data->eat_counter != -1) && (philo->data->current_eat >= philo->data->max_eat))
+		{
+			ft_print_message(DONE, philo);
+			pthread_mutex_unlock(philo->data->stop);
+			break;
+		}
 	}
-	ft_print_message(DONE, philo);
-	pthread_mutex_unlock(philo->data->stop);
 	return (NULL);
 }
 
