@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:38 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/11 14:09:19 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/11 14:28:56 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_simulation
 	pthread_mutex_t		*death;
 	pthread_mutex_t		*stop;
 	int					start;
+	int					limit;
 	int					philo_numbers;
 	int					time_to_die;
 	int					time_to_eat;

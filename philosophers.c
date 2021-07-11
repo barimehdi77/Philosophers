@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/11 14:11:19 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/11 14:41:46 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	ft_take_fork(t_philo *philo)
 
 void	ft_eat(t_philo *philo)
 {
+	philo->data->limit = ft_get_time() + philo->data->start;
+	printf("|limit is : %d\n", philo->data->limit);
 	ft_print_message(EATING, philo);
 	philo->eat_counter++;
 	usleep(philo->data->time_to_eat);
@@ -86,14 +88,27 @@ void	ft_sleep(t_philo *philo)
 	usleep(philo->data->time_to_sleep);
 }
 
+void	*ft_check_death(void *arg)
+{
+	t_philo			*philo;
+
+	philo = (t_philo *)arg;
+	while (1)
+	{
+		if (philo->data->limit < ft_get_time())
+			pthread_mutex_unlock(philo->data->stop);
+	}
+	return (NULL);
+}
+
 void	*ft_routine(void *arg)
 {
 	t_philo	*philo;
+	pthread_t	death;
 
 	philo = arg;
-	// printf("thread number %d has started\n", philo->index + 1);
-	// sleep(1);
-	// printf("thread number %d has ended\n", philo->index + 1);
+	pthread_create(&death, NULL, ft_check_death, philo);
+	pthread_detach(death);
 	while (1)
 	{
 		ft_take_fork(philo);
@@ -131,7 +146,7 @@ int	main(int ac, char **av)
 		{
 			pthread_create(simulation.threads + i, NULL, ft_routine, philo + i);
 			pthread_detach(simulation.threads[i]);
-			usleep(100);
+			usleep(1000);
 			i++;
 		}
 		pthread_mutex_lock(simulation.stop);
