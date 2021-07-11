@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/11 14:41:46 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/11 17:11:33 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ int	ft_parsing(char **av, t_simulation *simulation)
 			simulation->forks = malloc(sizeof(pthread_mutex_t) * num);
 		}
 		else if (i == 2)
-			simulation->time_to_die = num * 1000;
+			simulation->time_to_die = num;
 		else if (i == 3)
-			simulation->time_to_eat = num * 1000;
+			simulation->time_to_eat = num;
 		else if (i == 4)
-			simulation->time_to_sleep = num * 1000;
+			simulation->time_to_sleep = num;
 		else if (i == 5)
 			simulation->eat_counter = num;
 		i++;
@@ -53,62 +53,45 @@ int	ft_parsing(char **av, t_simulation *simulation)
 	return (0);
 }
 
-void	ft_take_fork(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->data->forks[philo->left_hand]);
-	ft_print_message(FORK, philo);
-	pthread_mutex_lock(&philo->data->forks[philo->right_hand]);
-	ft_print_message(FORK, philo);
-}
-
-void	ft_eat(t_philo *philo)
-{
-	philo->data->limit = ft_get_time() + philo->data->start;
-	printf("|limit is : %d\n", philo->data->limit);
-	ft_print_message(EATING, philo);
-	philo->eat_counter++;
-	usleep(philo->data->time_to_eat);
-	pthread_mutex_unlock(&philo->data->forks[philo->left_hand]);
-	pthread_mutex_unlock(&philo->data->forks[philo->right_hand]);
-}
-
-void	ft_think(t_philo *philo)
-{
-	int time_to_think;
-
-	time_to_think = philo->data->time_to_die
-		- philo->data->time_to_sleep - philo->data->time_to_eat;
-	ft_print_message(THINKING, philo);
-	usleep(time_to_think);
-}
-
-void	ft_sleep(t_philo *philo)
-{
-	ft_print_message(SLEEPING, philo);
-	usleep(philo->data->time_to_sleep);
-}
-
 void	*ft_check_death(void *arg)
 {
-	t_philo			*philo;
+	t_philo	*philo;
+	int		count;
 
 	philo = (t_philo *)arg;
-	while (1)
+	count = 1;
+	while (count)
 	{
+		if (philo->eat_counter != -1)
+			count = philo->eat_counter;
+		// printf("counter : %d\n", count);
 		if (philo->data->limit < ft_get_time())
+		{
+			ft_print_message(DIED, philo);
 			pthread_mutex_unlock(philo->data->stop);
+		}
+		// printf("count : %d\n", count);
+		// if (count == 0)
+		// {
+		// 	ft_print_message(DONE, philo);
+		// 	pthread_mutex_unlock(philo->data->stop);
+		// }
 	}
+	ft_print_message(DONE, philo);
+	pthread_mutex_unlock(philo->data->stop);
 	return (NULL);
 }
 
 void	*ft_routine(void *arg)
 {
-	t_philo	*philo;
+	t_philo		*philo;
 	pthread_t	death;
 
 	philo = arg;
+	philo->data->limit = ft_get_time() + (unsigned int)philo->data->time_to_die;
 	pthread_create(&death, NULL, ft_check_death, philo);
 	pthread_detach(death);
+	// printf("counter : %d\n", philo->eat_counter);
 	while (1)
 	{
 		ft_take_fork(philo);
@@ -117,14 +100,6 @@ void	*ft_routine(void *arg)
 		ft_think(philo);
 	}
 	return (NULL);
-}
-
-unsigned int	ft_get_time(void)
-{
-	struct timeval	current_time;
-
-	gettimeofday(&current_time, NULL);
-	return ((current_time.tv_sec * 1000) + (current_time.tv_usec / 1000));
 }
 
 int	main(int ac, char **av)

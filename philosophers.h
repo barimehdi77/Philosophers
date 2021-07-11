@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:38 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/11 14:28:56 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/11 16:55:09 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define SLEEPING 3
 # define THINKING 4
 # define DIED 5
+# define DONE 6
+
 typedef struct s_simulation
 {
 	pthread_t			*threads;
@@ -34,8 +36,8 @@ typedef struct s_simulation
 	pthread_mutex_t		*message;
 	pthread_mutex_t		*death;
 	pthread_mutex_t		*stop;
+	unsigned int		limit;
 	int					start;
-	int					limit;
 	int					philo_numbers;
 	int					time_to_die;
 	int					time_to_eat;
@@ -59,6 +61,10 @@ t_philo			*ft_philo_init(t_simulation *simulation);
 void			ft_for_each_philo(t_simulation *simulation, t_philo *philo, int i);
 int				ft_error_put(char *messsage, int ret);
 unsigned int	ft_get_time(void);
-void	ft_print_message(int id, t_philo *philo);
+void			ft_print_message(int id, t_philo *philo);
+void	ft_take_fork(t_philo *philo);
+void	ft_eat(t_philo *philo);
+void	ft_think(t_philo *philo);
+void	ft_sleep(t_philo *philo);
 
 #endif
