@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 12:34:36 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/11 18:53:20 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/12 12:32:04 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_create_mutex(t_simulation *simulation)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	pthread_mutex_init(simulation->message, NULL);
@@ -37,6 +37,9 @@ void	ft_destroy_all(t_simulation *simulation, t_philo *philo)
 	free(philo);
 	free(simulation->forks);
 	free(simulation->threads);
+	free(simulation->death);
+	free(simulation->message);
+	free(simulation->stop);
 }
 
 t_philo	*ft_philo_init(t_simulation *simulation)

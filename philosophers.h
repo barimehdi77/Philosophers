@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:38 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/11 17:17:54 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/12 12:33:17 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct s_simulation
 	pthread_mutex_t		*message;
 	pthread_mutex_t		*death;
 	pthread_mutex_t		*stop;
-	unsigned int		limit;
 	int					start;
 	int					philo_numbers;
 	int					time_to_die;
@@ -50,6 +49,7 @@ typedef struct s_simulation
 typedef struct s_philo
 {
 	t_simulation	*data;
+	unsigned int	limit;
 	int				index;
 	int				right_hand;
 	int				left_hand;
@@ -57,16 +57,22 @@ typedef struct s_philo
 	int				eat_counter;
 }				t_philo;
 
-void			ft_create_mutex(t_simulation *simulation);
-void			ft_destroy_all(t_simulation *simulation, t_philo *philo);
-t_philo			*ft_philo_init(t_simulation *simulation);
-void			ft_for_each_philo(t_simulation *simulation, t_philo *philo, int i);
-int				ft_error_put(char *messsage, int ret);
 unsigned int	ft_get_time(void);
+void			*ft_routine(void *arg);
+void			ft_eat(t_philo *philo);
+void			ft_think(t_philo *philo);
+void			ft_sleep(t_philo *philo);
+int				ft_get_number(char *arg);
+void			*ft_check_death(void *arg);
+void			ft_take_fork(t_philo *philo);
 void			ft_print_message(int id, t_philo *philo);
-void	ft_take_fork(t_philo *philo);
-void	ft_eat(t_philo *philo);
-void	ft_think(t_philo *philo);
-void	ft_sleep(t_philo *philo);
+t_philo			*ft_philo_init(t_simulation *simulation);
+void			ft_create_mutex(t_simulation *simulation);
+int				ft_parsing(char **av, t_simulation *simulation);
+void			ft_set_rest(t_simulation *simulation, int num, int i);
+void			ft_set_data(t_simulation *simulation, int num, int i);
+void			ft_destroy_all(t_simulation *simulation, t_philo *philo);
+void			ft_for_each_philo(t_simulation *simulation, t_philo *philo,
+					int i);
 
 #endif

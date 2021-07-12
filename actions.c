@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 16:47:03 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/11 17:21:47 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/12 12:14:31 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_take_fork(t_philo *philo)
 
 void	ft_eat(t_philo *philo)
 {
-	philo->data->limit = ft_get_time() + philo->data->time_to_die;
+	philo->limit = ft_get_time() + philo->data->time_to_die;
 	ft_print_message(EATING, philo);
 	if (philo->data->eat_counter != -1)
 		philo->data->current_eat++;
