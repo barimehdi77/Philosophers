@@ -6,13 +6,13 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 12:28:24 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/12 12:28:34 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/12 12:58:01 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	ft_set_rest(t_simulation *simulation, int num, int i)
+int	ft_set_rest(t_simulation *simulation, int num, int i)
 {
 	if (i == 4)
 	{
@@ -31,9 +31,10 @@ void	ft_set_rest(t_simulation *simulation, int num, int i)
 			simulation->max_eat = num * simulation->philo_numbers;
 		}
 	}
+	return (0);
 }
 
-void	ft_set_data(t_simulation *simulation, int num, int i)
+int	ft_set_data(t_simulation *simulation, int num, int i)
 {
 	if (i == 1)
 	{
@@ -57,6 +58,7 @@ void	ft_set_data(t_simulation *simulation, int num, int i)
 	}
 	else
 		ft_set_rest(simulation, num, i);
+	return (0);
 }
 
 int	ft_get_number(char *arg)
