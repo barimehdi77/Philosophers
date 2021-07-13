@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:38 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/12 13:01:47 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/13 20:33:52 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void			ft_print_message(int id, t_philo *philo);
 t_philo			*ft_philo_init(t_simulation *simulation);
 void			ft_create_mutex(t_simulation *simulation);
 int				ft_parsing(char **av, t_simulation *simulation);
+int				ft_error_put(t_simulation *simulation, char *message);
 int				ft_set_rest(t_simulation *simulation, int num, int i);
 int				ft_set_data(t_simulation *simulation, int num, int i);
 void			ft_destroy_all(t_simulation *simulation, t_philo *philo);

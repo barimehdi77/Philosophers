@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 12:28:24 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/12 12:58:01 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/13 20:47:30 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	ft_set_rest(t_simulation *simulation, int num, int i)
 	if (i == 4)
 	{
 		if (num < 60)
-			return (printf("THE time_to_sleep CAN'T BE LESS THAN 60 ms\n"));
+			return (ft_error_put(simulation,
+					"THE time_to_sleep CAN'T BE LESS THAN 60 ms"));
 		simulation->time_to_sleep = num;
 	}
 	else if (i == 5)
@@ -34,12 +35,25 @@ int	ft_set_rest(t_simulation *simulation, int num, int i)
 	return (0);
 }
 
+int	ft_error_put(t_simulation *simulation, char *message)
+{
+	if (simulation)
+	{
+		if (simulation->threads)
+			free(simulation->threads);
+		if (simulation->forks)
+			free(simulation->forks);
+	}
+	printf("%s\n", message);
+	return (1);
+}
+
 int	ft_set_data(t_simulation *simulation, int num, int i)
 {
 	if (i == 1)
 	{
 		if (num == 0)
-			return (printf("NO PHELOSOPHER IN THE TABILE\n"));
+			return (ft_error_put(NULL, "NO PHELOSOPHER IN THE TABILE"));
 		simulation->philo_numbers = num;
 		simulation->threads = malloc(sizeof(pthread_t) * num);
 		simulation->forks = malloc(sizeof(pthread_mutex_t) * num);
@@ -47,13 +61,15 @@ int	ft_set_data(t_simulation *simulation, int num, int i)
 	else if (i == 2)
 	{
 		if (num < 60)
-			return (printf("THE time_to_die CAN'T BE LESS THAN 60 ms\n"));
+			return (ft_error_put(simulation,
+					"THE time_to_die CAN'T BE LESS THAN 60 ms"));
 		simulation->time_to_die = num;
 	}
 	else if (i == 3)
 	{
 		if (num < 60)
-			return (printf("THE time_to_eat CAN'T BE LESS THAN 60 ms\n"));
+			return (ft_error_put(simulation,
+					"THE time_to_eat CAN'T BE LESS THAN 60 ms"));
 		simulation->time_to_eat = num;
 	}
 	else
@@ -67,6 +83,7 @@ int	ft_get_number(char *arg)
 	int	num;
 
 	i = 0;
+	num = 0;
 	while (arg[i])
 	{
 		if (arg[i] >= '0' && arg[i] <= '9')
@@ -87,7 +104,8 @@ int	ft_parsing(char **av, t_simulation *simulation)
 	while (av[i])
 	{
 		num = ft_get_number(av[i]);
-		ft_set_data(simulation, num, i);
+		if (ft_set_data(simulation, num, i))
+			return (1);
 		i++;
 	}
 	if (i == 5)
