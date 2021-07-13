@@ -6,7 +6,7 @@
 #    By: mbari <mbari@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/12 12:34:25 by mbari             #+#    #+#              #
-#    Updated: 2021/07/12 13:10:39 by mbari            ###   ########.fr        #
+#    Updated: 2021/07/13 20:51:55 by mbari            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME = ./philo
 
 
 # Project's directories
+OBJECTSDIR = objects
 HEADERFILE = philosophers.h
 
 
@@ -36,7 +37,7 @@ philosophers.c \
 
 
 # Define objects for all sources
-OBJS := $(SRC_FILES:.c=.o)
+OBJS := $(addprefix $(OBJECTSDIR)/, $(SRC_FILES:.c=.o))
 
 # Name the compiler
 CC = gcc
@@ -60,15 +61,15 @@ head:
 $(NAME): head $(OBJS)
 	@$(CC) -I $(HEADERFILE) $(OBJS) -o $@
 
-%.o: %.c $(HEADERFILE)
+$(OBJECTSDIR)/%.o: %.c $(HEADERFILE)
 	@$(MKDIR) $(dir $@)
 	@echo "$(BLUE)█ $(YELLOW)Compiling$(RESET) $<:\r\t\t\t\t\t\t\t$(GREEN){DONE}$(BLUE) █$(RESET)"
 	@$(CC) $(FLAGS) -I $(HEADERFILE) -o $@ -c $<
 
 # Remove all objects, dependencies and executable files generated during the build
 clean:
-	@echo "$(RED)deleting$(RESET): OBJECTS"
-	@$(RMDIR) $(OBJS)
+	@echo "$(RED)deleting$(RESET): " $(OBJECTSDIR)
+	@$(RMDIR) $(OBJECTSDIR)
 
 
 fclean: clean
