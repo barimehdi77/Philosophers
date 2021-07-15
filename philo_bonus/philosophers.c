@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/15 16:29:44 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/15 18:29:28 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,33 +19,31 @@ void	*ft_check_death(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 	{
-		pthread_mutex_lock(philo->data->death);
+		sem_wait(philo->data->death);
 		if (philo->next_meal < ft_get_time())
 		{
 			ft_print_message(DIED, philo);
-			pthread_mutex_unlock(philo->data->stop);
+			sem_post(philo->data->stop);
 			break ;
 		}
-		pthread_mutex_unlock(philo->data->death);
-		pthread_mutex_lock(philo->data->death);
+		sem_post(philo->data->death);
+		sem_wait(philo->data->death);
 		if ((philo->data->eat_counter != -1)
 			&& (philo->data->current_eat >= philo->data->max_eat))
 		{
 			ft_print_message(DONE, philo);
-			pthread_mutex_unlock(philo->data->stop);
+			sem_post(philo->data->stop);
 			break ;
 		}
-		pthread_mutex_unlock(philo->data->death);
+		sem_post(philo->data->death);
 	}
 	return (NULL);
 }
 
-void	*ft_routine(void *arg)
+void	ft_routine(t_philo *philo)
 {
-	t_philo		*philo;
 	pthread_t	death;
 
-	philo = arg;
 	philo->next_meal = ft_get_time() + (unsigned int)philo->data->time_to_die;
 	pthread_create(&death, NULL, ft_check_death, philo);
 	pthread_detach(death);
@@ -56,7 +54,6 @@ void	*ft_routine(void *arg)
 		ft_sleep(philo);
 		ft_print_message(THINKING, philo);
 	}
-	return (NULL);
 }
 
 int	main(int ac, char **av)
@@ -72,15 +69,19 @@ int	main(int ac, char **av)
 			return (1);
 		philo = ft_philo_init(&simulation);
 		simulation.start = ft_get_time();
-		ft_create_mutex(&simulation);
-		pthread_mutex_lock(simulation.stop);
+		ft_create_semaphores(&simulation);
+		sem_wait(simulation.stop);
 		while (i < simulation.philo_numbers)
 		{
-			pthread_create(simulation.threads + i, NULL, ft_routine, philo + i);
-			pthread_detach(simulation.threads[i]);
+			philo[i].pid = fork();
+			if (philo[i].pid == 0)
+			{
+				ft_routine(philo + i);
+				exit(0);
+			}
 			i++;
 		}
-		pthread_mutex_lock(simulation.stop);
+		sem_wait(simulation.stop);
 		ft_destroy_all(&simulation, philo);
 	}
 	return (0);

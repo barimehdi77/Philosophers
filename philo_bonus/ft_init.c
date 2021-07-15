@@ -6,37 +6,34 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 12:34:36 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/12 12:32:04 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/15 18:31:10 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	ft_create_mutex(t_simulation *simulation)
+void	ft_create_semaphores(t_simulation *simulation)
 {
-	int	i;
-
-	i = 0;
-	pthread_mutex_init(simulation->message, NULL);
-	pthread_mutex_init(simulation->death, NULL);
-	pthread_mutex_init(simulation->stop, NULL);
-	while (i < simulation->philo_numbers)
-		pthread_mutex_init(simulation->forks + i++, NULL);
+	sem_unlink("death");
+	sem_unlink("messsage");
+	sem_unlink("stop");
+	sem_unlink("foeks");
+	simulation->death = sem_open("death", O_CREAT, 0600, 1);
+	simulation->message = sem_open("message", O_CREAT, 0600, 1);
+	simulation->stop = sem_open("stop", O_CREAT, 0600, 1);
+	printf("===> %d\n", simulation->philo_numbers);
+	simulation->forks = sem_open("forks", O_CREAT, 0600,
+			simulation->philo_numbers);
 }
 
 void	ft_destroy_all(t_simulation *simulation, t_philo *philo)
 {
-	int	i;
-
-	i = 0;
-	pthread_mutex_destroy(simulation->death);
-	pthread_mutex_destroy(simulation->message);
-	pthread_mutex_destroy(simulation->stop);
-	while (i < simulation->philo_numbers)
-		pthread_mutex_destroy(simulation->forks + i++);
+	sem_close(simulation->death);
+	sem_close(simulation->message);
+	sem_close(simulation->stop);
+	sem_close(simulation->forks);
 	free(philo);
 	free(simulation->forks);
-	free(simulation->threads);
 	free(simulation->death);
 	free(simulation->message);
 	free(simulation->stop);
@@ -49,9 +46,9 @@ t_philo	*ft_philo_init(t_simulation *simulation)
 
 	i = -1;
 	philo = malloc(sizeof(t_philo) * simulation->philo_numbers);
-	simulation->stop = malloc(sizeof(pthread_mutex_t));
-	simulation->death = malloc(sizeof(pthread_mutex_t));
-	simulation->message = malloc(sizeof(pthread_mutex_t));
+	simulation->stop = malloc(sizeof(sem_t));
+	simulation->death = malloc(sizeof(sem_t));
+	simulation->message = malloc(sizeof(sem_t));
 	while (++i < simulation->philo_numbers)
 		ft_for_each_philo(simulation, philo, i);
 	return (philo);
@@ -60,10 +57,9 @@ t_philo	*ft_philo_init(t_simulation *simulation)
 void	ft_for_each_philo(t_simulation *simulation, t_philo *philo, int i)
 {
 	philo[i].index = i;
-	philo[i].left_hand = i;
-	philo[i].right_hand = (i + 1) % simulation->philo_numbers;
 	philo[i].is_dead = NO;
 	philo[i].data = simulation;
+	philo[i].pid = -1;
 	if (simulation->eat_counter == -1)
 		philo[i].eat_counter = -1;
 	else
@@ -75,7 +71,7 @@ void	ft_print_message(int id, t_philo *philo)
 	unsigned int	time;
 
 	time = ft_get_time() - philo->data->start;
-	pthread_mutex_lock(philo->data->message);
+	sem_wait(philo->data->message);
 	if (id == FORK)
 		printf("%u\t%d has taken a fork\n", time, philo->index + 1);
 	else if (id == EATING)
@@ -89,5 +85,5 @@ void	ft_print_message(int id, t_philo *philo)
 	else if (id == DONE)
 		printf("DONE :)\n");
 	if (id != DIED)
-		pthread_mutex_unlock(philo->data->message);
+		sem_post(philo->data->message);
 }

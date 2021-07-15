@@ -6,12 +6,12 @@
 #    By: mbari <mbari@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/12 12:34:25 by mbari             #+#    #+#              #
-#    Updated: 2021/07/13 20:51:55 by mbari            ###   ########.fr        #
+#    Updated: 2021/07/15 18:23:26 by mbari            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Name of the final executable files
-NAME = ./philo
+NAME = ./philo_bonus
 
 
 # Project's directories
@@ -29,10 +29,10 @@ RESET = \033[0m
 
 
 # philosophers files variable
-SRC_FILES = ft_actions.c \
-ft_init.c \
-ft_parsing.c \
+SRC_FILES = ft_parsing.c \
 philosophers.c \
+ft_actions.c \
+ft_init.c \
 
 
 

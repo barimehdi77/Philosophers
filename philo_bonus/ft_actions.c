@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 16:47:03 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/15 16:30:26 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/15 18:30:23 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ unsigned int	ft_get_time(void)
 
 void	ft_take_fork(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->data->forks[philo->left_hand]);
+	sem_wait(philo->data->forks);
 	ft_print_message(FORK, philo);
-	pthread_mutex_lock(&philo->data->forks[philo->right_hand]);
+	sem_wait(philo->data->forks);
 	ft_print_message(FORK, philo);
 }
 
@@ -37,8 +37,8 @@ void	ft_eat(t_philo *philo)
 	philo->next_meal = philo->eating_time
 		+ (unsigned int)philo->data->time_to_die;
 	usleep(philo->data->time_to_eat * 1000);
-	pthread_mutex_unlock(&philo->data->forks[philo->left_hand]);
-	pthread_mutex_unlock(&philo->data->forks[philo->right_hand]);
+	sem_post(philo->data->forks);
+	sem_post(philo->data->forks);
 }
 
 void	ft_sleep(t_philo *philo)

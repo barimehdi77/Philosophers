@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:38 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/15 16:29:56 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/15 18:19:55 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 # define PHILOSOPHERS_H
 
 # include <stdio.h>
+# include <semaphore.h>
 # include <pthread.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/time.h>
+# include <fcntl.h>
+# include <sys/stat.h>
 
 # define YES 1
 # define NO 0
@@ -31,35 +34,33 @@
 
 typedef struct s_simulation
 {
-	pthread_t			*threads;
-	pthread_mutex_t		*forks;
-	pthread_mutex_t		*message;
-	pthread_mutex_t		*death;
-	pthread_mutex_t		*stop;
-	unsigned int		start;
-	int					philo_numbers;
-	int					time_to_die;
-	int					time_to_eat;
-	int					time_to_sleep;
-	int					eat_counter;
-	int					max_eat;
-	int					current_eat;
+	sem_t			*forks;
+	sem_t			*message;
+	sem_t			*death;
+	sem_t			*stop;
+	unsigned int	start;
+	int				philo_numbers;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				eat_counter;
+	int				max_eat;
+	int				current_eat;
 }				t_simulation;
 
 typedef struct s_philo
 {
 	t_simulation	*data;
+	pid_t			pid;
 	unsigned int	eating_time;
 	unsigned int	next_meal;
 	int				index;
-	int				right_hand;
-	int				left_hand;
 	int				is_dead;
 	int				eat_counter;
 }				t_philo;
 
 unsigned int	ft_get_time(void);
-void			*ft_routine(void *arg);
+void			ft_routine(t_philo *philo);
 void			ft_eat(t_philo *philo);
 void			ft_think(t_philo *philo);
 void			ft_sleep(t_philo *philo);
@@ -68,7 +69,7 @@ void			*ft_check_death(void *arg);
 void			ft_take_fork(t_philo *philo);
 void			ft_print_message(int id, t_philo *philo);
 t_philo			*ft_philo_init(t_simulation *simulation);
-void			ft_create_mutex(t_simulation *simulation);
+void			ft_create_semaphores(t_simulation *simulation);
 int				ft_parsing(char **av, t_simulation *simulation);
 int				ft_error_put(t_simulation *simulation, char *message);
 int				ft_set_rest(t_simulation *simulation, int num, int i);

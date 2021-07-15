@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 12:28:24 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/13 20:47:30 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/15 18:04:34 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ int	ft_error_put(t_simulation *simulation, char *message)
 {
 	if (simulation)
 	{
-		if (simulation->threads)
-			free(simulation->threads);
 		if (simulation->forks)
 			free(simulation->forks);
 	}
@@ -55,8 +53,7 @@ int	ft_set_data(t_simulation *simulation, int num, int i)
 		if (num == 0)
 			return (ft_error_put(NULL, "NO PHELOSOPHER IN THE TABILE"));
 		simulation->philo_numbers = num;
-		simulation->threads = malloc(sizeof(pthread_t) * num);
-		simulation->forks = malloc(sizeof(pthread_mutex_t) * num);
+		simulation->forks = malloc(sizeof(sem_t) * num);
 	}
 	else if (i == 2)
 	{
