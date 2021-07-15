@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:38 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/13 20:33:52 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/15 16:08:38 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_simulation
 	pthread_mutex_t		*message;
 	pthread_mutex_t		*death;
 	pthread_mutex_t		*stop;
-	int					start;
+	unsigned int		start;
 	int					philo_numbers;
 	int					time_to_die;
 	int					time_to_eat;
@@ -49,7 +49,9 @@ typedef struct s_simulation
 typedef struct s_philo
 {
 	t_simulation	*data;
-	unsigned int	limit;
+	// unsigned int	limit;
+	unsigned int	eating_time;
+	unsigned int	next_meal;
 	int				index;
 	int				right_hand;
 	int				left_hand;

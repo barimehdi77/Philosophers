@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/13 20:46:13 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/15 16:27:38 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*ft_check_death(void *arg)
 	while (1)
 	{
 		pthread_mutex_lock(philo->data->death);
-		if (philo->limit < ft_get_time())
+		if (philo->next_meal < ft_get_time())
 		{
 			ft_print_message(DIED, philo);
 			pthread_mutex_unlock(philo->data->stop);
@@ -46,7 +46,8 @@ void	*ft_routine(void *arg)
 	pthread_t	death;
 
 	philo = arg;
-	philo->limit = ft_get_time() + (unsigned int)philo->data->time_to_die;
+	// philo->limit = ft_get_time() + (unsigned int)philo->data->time_to_die;
+	philo->next_meal = ft_get_time() + (unsigned int)philo->data->time_to_die;
 	pthread_create(&death, NULL, ft_check_death, philo);
 	pthread_detach(death);
 	while (1)
@@ -54,7 +55,7 @@ void	*ft_routine(void *arg)
 		ft_take_fork(philo);
 		ft_eat(philo);
 		ft_sleep(philo);
-		ft_think(philo);
+		ft_print_message(THINKING, philo);
 	}
 	return (NULL);
 }
@@ -68,17 +69,17 @@ int	main(int ac, char **av)
 	i = 0;
 	if (ac == 5 || ac == 6)
 	{
-		simulation.start = ft_get_time();
 		if (ft_parsing(av, &simulation))
 			return (1);
 		philo = ft_philo_init(&simulation);
+		simulation.start = ft_get_time();
 		ft_create_mutex(&simulation);
 		pthread_mutex_lock(simulation.stop);
 		while (i < simulation.philo_numbers)
 		{
 			pthread_create(simulation.threads + i, NULL, ft_routine, philo + i);
 			pthread_detach(simulation.threads[i]);
-			usleep(100);
+			// usleep(100);
 			i++;
 		}
 		pthread_mutex_lock(simulation.stop);
