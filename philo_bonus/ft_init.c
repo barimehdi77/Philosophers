@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 12:34:36 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/15 18:31:10 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/15 20:32:31 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,12 @@
 void	ft_create_semaphores(t_simulation *simulation)
 {
 	sem_unlink("death");
-	sem_unlink("messsage");
+	sem_unlink("message");
 	sem_unlink("stop");
-	sem_unlink("foeks");
+	sem_unlink("forks");
 	simulation->death = sem_open("death", O_CREAT, 0600, 1);
 	simulation->message = sem_open("message", O_CREAT, 0600, 1);
 	simulation->stop = sem_open("stop", O_CREAT, 0600, 1);
-	printf("===> %d\n", simulation->philo_numbers);
 	simulation->forks = sem_open("forks", O_CREAT, 0600,
 			simulation->philo_numbers);
 }
@@ -32,12 +31,7 @@ void	ft_destroy_all(t_simulation *simulation, t_philo *philo)
 	sem_close(simulation->message);
 	sem_close(simulation->stop);
 	sem_close(simulation->forks);
-	free(philo);
-	free(simulation->forks);
-	free(simulation->death);
-	free(simulation->message);
-	free(simulation->stop);
-}
+	free(philo);}
 
 t_philo	*ft_philo_init(t_simulation *simulation)
 {
@@ -46,9 +40,10 @@ t_philo	*ft_philo_init(t_simulation *simulation)
 
 	i = -1;
 	philo = malloc(sizeof(t_philo) * simulation->philo_numbers);
-	simulation->stop = malloc(sizeof(sem_t));
-	simulation->death = malloc(sizeof(sem_t));
-	simulation->message = malloc(sizeof(sem_t));
+	simulation->death = NULL;
+	simulation->stop = NULL;
+	simulation->message = NULL;
+	simulation->forks = NULL;
 	while (++i < simulation->philo_numbers)
 		ft_for_each_philo(simulation, philo, i);
 	return (philo);

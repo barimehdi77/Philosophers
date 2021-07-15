@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/15 18:29:28 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/15 20:33:52 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	ft_routine(t_philo *philo)
 int	main(int ac, char **av)
 {
 	int				i;
+	int				t;
 	t_simulation	simulation;
 	t_philo			*philo;
 
