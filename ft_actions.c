@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 16:47:03 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/15 16:20:46 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/15 16:30:26 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,6 @@ void	ft_eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->data->forks[philo->left_hand]);
 	pthread_mutex_unlock(&philo->data->forks[philo->right_hand]);
 }
-
-// void	ft_think(t_philo *philo)
-// {
-// 	int	time_to_think;
-
-// 	time_to_think = philo->data->time_to_die
-// 		- philo->data->time_to_sleep - philo->data->time_to_eat;
-
-// 	// usleep(time_to_think * 1000);
-// }
 
 void	ft_sleep(t_philo *philo)
 {

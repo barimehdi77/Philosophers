@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/15 16:27:38 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/15 16:29:44 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	*ft_routine(void *arg)
 	pthread_t	death;
 
 	philo = arg;
-	// philo->limit = ft_get_time() + (unsigned int)philo->data->time_to_die;
 	philo->next_meal = ft_get_time() + (unsigned int)philo->data->time_to_die;
 	pthread_create(&death, NULL, ft_check_death, philo);
 	pthread_detach(death);
@@ -79,7 +78,6 @@ int	main(int ac, char **av)
 		{
 			pthread_create(simulation.threads + i, NULL, ft_routine, philo + i);
 			pthread_detach(simulation.threads[i]);
-			// usleep(100);
 			i++;
 		}
 		pthread_mutex_lock(simulation.stop);
