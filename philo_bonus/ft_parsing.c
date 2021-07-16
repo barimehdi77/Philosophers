@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 12:28:24 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/15 18:04:34 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/16 07:22:35 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	ft_set_data(t_simulation *simulation, int num, int i)
 		if (num == 0)
 			return (ft_error_put(NULL, "NO PHELOSOPHER IN THE TABILE"));
 		simulation->philo_numbers = num;
-		simulation->forks = malloc(sizeof(sem_t) * num);
 	}
 	else if (i == 2)
 	{
