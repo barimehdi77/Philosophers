@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 12:34:36 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/16 06:53:45 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/16 07:14:06 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ void	ft_create_semaphores(t_simulation *simulation)
 
 void	ft_destroy_all(t_simulation *simulation, t_philo *philo)
 {
+	int	i;
+
+	i = 0;
+	while (i < simulation->philo_numbers)
+		kill(philo[i++].pid, SIGKILL);
 	sem_close(simulation->death);
 	sem_close(simulation->message);
 	sem_close(simulation->stop);
@@ -79,7 +84,7 @@ void	ft_print_message(int id, t_philo *philo)
 	else if (id == DIED)
 		printf("%u\t%d died\n", time, philo->index + 1);
 	else if (id == DONE)
-		printf("DONE :)\n");
+		printf("Simulation is Done :)\n");
 	if (id != DIED)
 		sem_post(philo->data->message);
 }

@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:38 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/15 19:15:48 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/16 07:12:33 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef struct s_philo
 unsigned int	ft_get_time(void);
 void			*ft_routine(void *arg);
 void			ft_eat(t_philo *philo);
-void			ft_think(t_philo *philo);
 void			ft_sleep(t_philo *philo);
 int				ft_get_number(char *arg);
 void			*ft_check_death(void *arg);

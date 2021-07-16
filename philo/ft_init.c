@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 12:34:36 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/12 12:32:04 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/16 07:11:41 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	ft_print_message(int id, t_philo *philo)
 	else if (id == DIED)
 		printf("%u\t%d died\n", time, philo->index + 1);
 	else if (id == DONE)
-		printf("DONE :)\n");
+		printf("Simulation is Done :)\n");
 	if (id != DIED)
 		pthread_mutex_unlock(philo->data->message);
 }

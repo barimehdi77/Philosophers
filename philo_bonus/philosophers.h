@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:38 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/15 23:44:18 by kali             ###   ########.fr       */
+/*   Updated: 2021/07/16 07:12:27 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ typedef struct s_philo
 unsigned int	ft_get_time(void);
 void			ft_routine(t_philo *philo);
 void			ft_eat(t_philo *philo);
-void			ft_think(t_philo *philo);
 void			ft_sleep(t_philo *philo);
 int				ft_get_number(char *arg);
 void			*ft_check_death(void *arg);
