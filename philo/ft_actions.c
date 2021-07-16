@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 16:47:03 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/16 08:55:37 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/16 10:02:48 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	ft_take_fork(t_philo *philo)
 
 void	ft_eat(t_philo *philo)
 {
+	pthread_mutex_lock(philo->eat);
 	ft_print_message(EATING, philo);
 	if (philo->data->eat_counter != -1)
 		philo->data->current_eat++;
@@ -39,10 +40,12 @@ void	ft_eat(t_philo *philo)
 	usleep(philo->data->time_to_eat * 1000);
 	pthread_mutex_unlock(&philo->data->forks[philo->left_hand]);
 	pthread_mutex_unlock(&philo->data->forks[philo->right_hand]);
+	pthread_mutex_unlock(philo->eat);
 }
 
 void	ft_sleep(t_philo *philo)
 {
+	usleep(10);
 	ft_print_message(SLEEPING, philo);
 	usleep(philo->data->time_to_sleep * 1000);
 }

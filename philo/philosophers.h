@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:38 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/16 08:41:22 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/16 10:38:25 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,13 @@ typedef struct s_simulation
 	int					time_to_sleep;
 	int					eat_counter;
 	int					max_eat;
+	int					is_dead;
 	int					current_eat;
 }				t_simulation;
 
 typedef struct s_philo
 {
+	pthread_mutex_t	*eat;
 	t_simulation	*data;
 	unsigned int	eating_time;
 	unsigned int	next_meal;

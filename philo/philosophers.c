@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/16 08:44:19 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/16 11:18:37 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,30 @@ void	*ft_check_death(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 	{
-		pthread_mutex_lock(philo->data->death);
 		if (philo->next_meal < ft_get_time())
 		{
+			philo->data->is_dead = YES;
+			pthread_mutex_lock(philo->eat);
 			ft_print_message(DIED, philo);
 			pthread_mutex_unlock(philo->data->stop);
 			break ;
 		}
-		pthread_mutex_unlock(philo->data->death);
-		pthread_mutex_lock(philo->data->death);
-		if ((philo->data->eat_counter != -1)
-			&& (philo->data->current_eat >= philo->data->max_eat))
-		{
-			ft_print_message(DONE, philo);
-			pthread_mutex_unlock(philo->data->stop);
-			break ;
-		}
-		pthread_mutex_unlock(philo->data->death);
 	}
 	return (NULL);
+}
+
+int	ft_check_eat(t_philo *philo)
+{
+	if ((philo->data->eat_counter != -1)
+		&& (philo->data->current_eat >= philo->data->max_eat))
+	{
+		philo->data->is_dead = YES;
+		pthread_mutex_lock(philo->eat);
+		ft_print_message(DONE, philo);
+		pthread_mutex_unlock(philo->data->stop);
+		return (0);
+	}
+	return (1);
 }
 
 void	*ft_routine(void *arg)
@@ -51,8 +56,12 @@ void	*ft_routine(void *arg)
 	pthread_detach(death);
 	while (1)
 	{
+		if (philo->data->is_dead)
+			break ;
 		ft_take_fork(philo);
 		ft_eat(philo);
+		if (!ft_check_eat(philo))
+			break ;
 		ft_sleep(philo);
 		ft_print_message(THINKING, philo);
 	}
@@ -90,8 +99,8 @@ int	main(int ac, char **av)
 		while (i < simulation.philo_numbers)
 		{
 			pthread_create(simulation.threads + i, NULL, ft_routine, philo + i);
-			pthread_detach(simulation.threads[i]);
-			i++;
+			pthread_detach(simulation.threads[i++]);
+			usleep(100);
 		}
 		pthread_mutex_lock(simulation.stop);
 		ft_destroy_all(&simulation, philo);

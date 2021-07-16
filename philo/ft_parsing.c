@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 12:28:24 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/16 08:43:23 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/16 11:16:28 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,11 @@ int	ft_check_last(t_simulation *simulation, int num, int i)
 	if (i == 5)
 	{
 		if (num == 0)
+		{
 			simulation->eat_counter = -1;
+			simulation->current_eat = -1;
+			simulation->max_eat = -1;
+		}
 		else
 		{
 			simulation->eat_counter = num;
@@ -111,5 +115,6 @@ int	ft_parsing(char **av, t_simulation *simulation)
 		simulation->current_eat = -1;
 		simulation->max_eat = -1;
 	}
+	simulation->is_dead = NO;
 	return (0);
 }
