@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/15 23:57:44 by kali             ###   ########.fr       */
+/*   Updated: 2021/07/16 06:43:09 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	*ft_check_death(void *arg)
 		sem_wait(philo->data->death);
 		if (philo->next_meal < ft_get_time())
 		{
-			philo->is_dead = YES;
 			ft_print_message(DIED, philo);
 			sem_post(philo->data->stop);
 			break ;
@@ -32,9 +31,6 @@ void	*ft_check_death(void *arg)
 		if ((philo->data->eat_counter != -1)
 			&& (philo->data->current_eat >= philo->data->max_eat))
 		{
-			philo->is_dead = YES;
-			printf("|%d|\n", philo->is_dead);
-			printf("=======>|%d|\n", philo->data->current_eat);
 			ft_print_message(DONE, philo);
 			sem_post(philo->data->stop);
 			break ;
@@ -51,7 +47,7 @@ void	ft_routine(t_philo *philo)
 	philo->next_meal = ft_get_time() + (unsigned int)philo->data->time_to_die;
 	pthread_create(&death, NULL, ft_check_death, philo);
 	pthread_detach(death);
-	while (philo->is_dead)
+	while (1)
 	{
 		ft_take_fork(philo);
 		ft_eat(philo);
@@ -63,7 +59,6 @@ void	ft_routine(t_philo *philo)
 int	main(int ac, char **av)
 {
 	int				i;
-	int				t;
 	t_simulation	simulation;
 	t_philo			*philo;
 
@@ -88,7 +83,9 @@ int	main(int ac, char **av)
 			usleep(100);
 		}
 		sem_wait(simulation.stop);
-		kill(0, SIGINT);
+		i = 0;
+		while (i < simulation.philo_numbers)
+			kill(philo[i++].pid, SIGKILL);
 		ft_destroy_all(&simulation, philo);
 	}
 	return (0);

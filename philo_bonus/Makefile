@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kali <kali@student.42.fr>                  +#+  +:+       +#+         #
+#    By: mbari <mbari@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/12 12:34:25 by mbari             #+#    #+#              #
-#    Updated: 2021/07/15 23:19:48 by kali             ###   ########.fr        #
+#    Updated: 2021/07/16 06:26:21 by mbari            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ HEADERFILE = philosophers.h
 
 
 # Name of variables
-FLAGS = #-Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 RED = \033[1;31m
 GREEN = \033[1;32m
 YELLOW = \033[1;33m
@@ -59,12 +59,12 @@ head:
 
 # philosophers making rules
 $(NAME): head $(OBJS)
-	@$(CC) -I $(HEADERFILE) $(OBJS) -o $@ -lpthread -lrt
+	@$(CC) -I $(HEADERFILE) $(OBJS) -o $@
 
 $(OBJECTSDIR)/%.o: %.c $(HEADERFILE)
 	@$(MKDIR) $(dir $@)
 	@echo "$(BLUE)█ $(YELLOW)Compiling$(RESET) $<:\r\t\t\t\t\t\t\t$(GREEN){DONE}$(BLUE) █$(RESET)"
-	@$(CC) $(FLAGS) -I $(HEADERFILE) -o $@ -c $< -lpthread -lrt
+	@$(CC) $(FLAGS) -I $(HEADERFILE) -o $@ -c $<
 
 # Remove all objects, dependencies and executable files generated during the build
 clean:
