@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/16 07:13:44 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/16 09:02:15 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,7 @@ int	main(int ac, char **av)
 		sem_wait(simulation.stop);
 		ft_destroy_all(&simulation, philo);
 	}
+	else
+		printf("Error: Too many arguments\n");
 	return (0);
 }

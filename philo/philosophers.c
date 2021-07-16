@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/16 06:53:30 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/16 08:44:19 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,19 @@ void	*ft_routine(void *arg)
 	return (NULL);
 }
 
+int	ft_error_put(t_simulation *simulation, char *message, int ret)
+{
+	if (simulation)
+	{
+		if (simulation->threads)
+			free(simulation->threads);
+		if (simulation->forks)
+			free(simulation->forks);
+	}
+	printf("%s\n", message);
+	return (ret);
+}
+
 int	main(int ac, char **av)
 {
 	int				i;
@@ -69,7 +82,7 @@ int	main(int ac, char **av)
 	if (ac == 5 || ac == 6)
 	{
 		if (ft_parsing(av, &simulation))
-			return (1);
+			return (0);
 		philo = ft_philo_init(&simulation);
 		simulation.start = ft_get_time();
 		ft_create_mutex(&simulation);
@@ -83,5 +96,7 @@ int	main(int ac, char **av)
 		pthread_mutex_lock(simulation.stop);
 		ft_destroy_all(&simulation, philo);
 	}
+	else
+		printf("Error: Too many arguments\n");
 	return (0);
 }

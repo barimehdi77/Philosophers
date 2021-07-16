@@ -6,7 +6,7 @@
 #    By: mbari <mbari@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/12 12:34:25 by mbari             #+#    #+#              #
-#    Updated: 2021/07/16 06:26:21 by mbari            ###   ########.fr        #
+#    Updated: 2021/07/16 09:07:41 by mbari            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,7 +74,7 @@ clean:
 
 fclean: clean
 	@echo "$(RED)deleting$(RESET): " $(NAME)
-	@$(RM) $(NAME) $(ERRIGNORE)
+	@$(RM) $(NAME) philo_bonus.dSYM $(ERRIGNORE)
 
 re: fclean all
 
