@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/16 06:43:09 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/16 07:02:56 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,24 @@ void	ft_routine(t_philo *philo)
 	}
 }
 
+void	ft_create_process(t_simulation *simulation, t_philo *philo)
+{
+	int	i;
+
+	i = 0;
+	while (i < simulation->philo_numbers)
+	{
+		philo[i].pid = fork();
+		if (philo[i].pid == 0)
+		{
+			ft_routine(philo + i);
+			exit(0);
+		}
+		i++;
+		usleep(100);
+	}
+}
+
 int	main(int ac, char **av)
 {
 	int				i;
@@ -71,17 +89,7 @@ int	main(int ac, char **av)
 		simulation.start = ft_get_time();
 		ft_create_semaphores(&simulation);
 		sem_wait(simulation.stop);
-		while (i < simulation.philo_numbers)
-		{
-			philo[i].pid = fork();
-			if (philo[i].pid == 0)
-			{
-				ft_routine(philo + i);
-				exit(0);
-			}
-			i++;
-			usleep(100);
-		}
+		ft_create_process(&simulation, philo);
 		sem_wait(simulation.stop);
 		i = 0;
 		while (i < simulation.philo_numbers)

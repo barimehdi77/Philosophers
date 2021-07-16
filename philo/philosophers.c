@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/16 00:01:20 by kali             ###   ########.fr       */
+/*   Updated: 2021/07/16 06:53:30 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ int	main(int ac, char **av)
 		{
 			pthread_create(simulation.threads + i, NULL, ft_routine, philo + i);
 			pthread_detach(simulation.threads[i]);
-			// usleep(100);
 			i++;
 		}
 		pthread_mutex_lock(simulation.stop);
