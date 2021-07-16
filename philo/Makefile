@@ -20,7 +20,7 @@ HEADERFILE = philosophers.h
 
 
 # Name of variables
-FLAGS = #-Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 RED = \033[1;31m
 GREEN = \033[1;32m
 YELLOW = \033[1;33m
@@ -59,7 +59,7 @@ head:
 
 # philosophers making rules
 $(NAME): head $(OBJS)
-	@$(CC) -I $(HEADERFILE) $(OBJS) -o $@ -pthread
+	@$(CC) -I $(HEADERFILE) $(OBJS) -o $@
 
 $(OBJECTSDIR)/%.o: %.c $(HEADERFILE)
 	@$(MKDIR) $(dir $@)

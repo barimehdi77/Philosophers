@@ -24,8 +24,8 @@
 # include <sys/stat.h>
 # include <signal.h>
 
-# define YES 0
-# define NO 1
+# define YES 1
+# define NO 0
 # define FORK 1
 # define EATING 2
 # define SLEEPING 3
