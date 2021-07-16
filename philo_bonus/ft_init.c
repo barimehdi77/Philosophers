@@ -6,7 +6,7 @@
 /*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 12:34:36 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/15 20:32:31 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/16 06:53:45 by mbari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	ft_destroy_all(t_simulation *simulation, t_philo *philo)
 	sem_close(simulation->message);
 	sem_close(simulation->stop);
 	sem_close(simulation->forks);
-	free(philo);}
+	free(philo);
+}
 
 t_philo	*ft_philo_init(t_simulation *simulation)
 {

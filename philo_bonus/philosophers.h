@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:11:38 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/15 18:19:55 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/15 23:44:18 by kali             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/time.h>
 # include <fcntl.h>
 # include <sys/stat.h>
+# include <signal.h>
 
 # define YES 1
 # define NO 0

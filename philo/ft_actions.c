@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_actions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 16:47:03 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/15 16:30:26 by mbari            ###   ########.fr       */
+/*   Updated: 2021/07/16 00:00:59 by kali             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ void	ft_eat(t_philo *philo)
 	ft_print_message(EATING, philo);
 	if (philo->data->eat_counter != -1)
 		philo->data->current_eat++;
+	usleep(philo->data->time_to_eat * 1000);
 	philo->eating_time = ft_get_time();
 	philo->next_meal = philo->eating_time
 		+ (unsigned int)philo->data->time_to_die;
-	usleep(philo->data->time_to_eat * 1000);
 	pthread_mutex_unlock(&philo->data->forks[philo->left_hand]);
 	pthread_mutex_unlock(&philo->data->forks[philo->right_hand]);
 }
